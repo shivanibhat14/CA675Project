@@ -1,0 +1,9 @@
+{
+  "name": "cloud-app-proj-new",
+  "version": "0.0.0",
+  "description": "CloudAppProjNew",
+  "main": "server.js",
+  "author": {
+    "name": ""
+  }
+}
