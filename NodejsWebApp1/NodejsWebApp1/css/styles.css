@@ -1,0 +1,50 @@
+body, html {
+    height: 100%;
+    margin: 0;
+  }
+  
+  .bg {
+    /* The image used */
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),url("../travelmate.jpeg");
+  
+    /* Full height */
+    height: 100%; 
+  
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  .py-large{
+    padding-top: 128px;
+    padding-bottom: 128px;
+}
+input { font-family: 'FontAwesome'; } 
+.input-group {
+    position: relative;
+    display: table;
+    border-collapse: separate;
+}
+.input-group input{
+    position: relative;
+    z-index: 2;
+    float: left;
+    width: 86%;
+    display: table-cell;
+    margin-bottom: 0;
+}
+.input-group-addon{
+    border-left: 0;
+    padding: 6px 12px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1;
+    color: #555;
+    text-align: center;
+    background-color: #eee;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.font24{
+    font-size: 24px !important;
+}
