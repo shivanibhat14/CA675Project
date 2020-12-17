@@ -131,7 +131,7 @@ p:last-child { margin-bottom: 0; }
     background: rgba(0, 0, 0, 0.7);
 }
 .tm-banner-bg {
-    background: url(../img/banner.jpg) center top no-repeat;    
+    background: url('/img/banner.jpg') center top no-repeat;    
     min-height: 720px;
     position: relative;
 }
