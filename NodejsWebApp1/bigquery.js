@@ -7,7 +7,7 @@ async function queryStops() {
 
   // Create a client
   const bigqueryClient = new BigQuery();
-  var stops = {}
+  var stops = [];
   // The SQL query to run
   const sqlQuery = `SELECT
     stop_name
@@ -23,8 +23,12 @@ async function queryStops() {
   var i = 0;
   rows.forEach(row => {
     if(i != 0)
-   stops[i] = row;
-   i++;
+    {
+        var stop = {};
+        stop.stop_name = row['stop_name'];
+      stops.push(stop);
+    }
+    i++;
   });
   const data = JSON.stringify(stops);
   fs.writeFile('stops.json', data, (err) => {
