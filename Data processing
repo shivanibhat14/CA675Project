@@ -1,0 +1,89 @@
+-----1.Pre process in local
+-------convert from txt to json
+import pandas as pd
+import json
+
+dataframe = pd.read_csv("F:/MCM 2020_2021/CA675/CA675_Assignment2/Data/stop_times/stop_times1_1.txt", header=0, names = ["trip_id","arrival_time","departure_time","stop_id","stop_sequence","stop_headsign","pickup_type","drop_off_type","shape_dist_traveled"])
+
+json_dictionary = dataframe.to_dict('records')
+
+with open('F:/MCM 2020_2021/CA675/CA675_Assignment2/Data/stop_times/stop_times1_1.json','w') as fp:
+    json.dump(json_dictionary,fp,indent=4)
+
+
+-----2. Upload Data schema and data file
+gcloud config set project test1-298308
+
+cd solutions-gcs-bq-streaming-functions-python
+
+bq mk public_transport.stop_times stop_times.json
+
+gsutil cp test_files/stop_times1_1.json gs://test1-298308-files-source-1607673855/
+
+-----2.1. data schema
+[ 
+    {
+      "mode": "NULLABLE",
+      "name": "trip_id",
+      "type": "STRING"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "arrival_time",
+      "type": "STRING"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "departure_time",
+      "type": "STRING"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "stop_id",
+      "type": "STRING"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "stop_sequence",
+      "type": "STRING"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "stop_headsign",
+      "type": "STRING"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "pickup_type",
+      "type": "STRING"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "drop_off_type",
+      "type": "STRING"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "agency_timezone",
+      "type": "STRING"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "shape_dist_traveled",
+      "type": "STRING"
+    }	
+] 
+-----For function Streaming:
+
+def _insert_into_bigquery(bucket_name, file_name):
+    blob = CS.get_bucket(bucket_name).blob(file_name)
+    row = json.loads(blob.download_as_string())
+    table = BQ.dataset(BQ_DATASET).table(BQ_TABLE)
+    errors = BQ.insert_rows_json(table,
+                                 json_rows=row,
+                                 skip_invalid_rows = True,
+                                 ignore_unknown_values = True,
+                                 retry=retry.Retry(deadline=30))
+    if errors != []:
+        raise BigQueryError(errors)
+------
